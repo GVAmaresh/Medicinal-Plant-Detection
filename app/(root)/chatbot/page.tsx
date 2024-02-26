@@ -30,7 +30,8 @@ export default function Home() {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        setContent(data.bot);
+        console.log(data.answer)
+        setContent(data.answer);
       } catch (error) {
         console.error("There was a problem with the fetch operation:", error);
       } finally {
@@ -55,7 +56,7 @@ export default function Home() {
             <AibotCard answer={content} />
           ) : (
             <>
-              {content.length === 0 ? (
+              {content == ""? (
                 <AibotCard answer={content} />
               ) : (
                 <AibotCard answer={content} />

@@ -20,7 +20,7 @@ function Card({ src, text, main, boxShadow = false }: CardProps) {
         </div>
         <div className="flex flex-col justify-center sm:ml-4">
           <h1>{main ? main : ""}</h1>
-          <div className="from-neutral-50 text-center">{text?text:""}</div>
+          <div className="from-neutral-50 text-center ">{text?text:""}</div>
         </div>
       </div>
     </>

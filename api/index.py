@@ -9,6 +9,9 @@ from fastapi import Body
 import torch
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 import os
+from herbalScanner import predict_plant_photo
+from storeImf import Imf
+from chatbot.predict import response
 
 app = FastAPI(docs_url="/api/docs", openapi_url="/api/openapi.json")
 
@@ -29,42 +32,22 @@ async def create_upload_file(file: UploadFile = File(...)):
     contents = await file.read()
     with open(f"{IMAGEDIR}{file.filename}", "wb") as f:
         f.write(contents)
-    model = YOLO("./best.pt")
-    results = model(f"./images/{file.filename}")
-    print(results)
+    # model = YOLO("./best.pt")
+    # results = model(f"./images/{file.filename}")
+    # print(results)
+    predicted_label, confidence = predict_plant_photo(f"./images/{file.filename}")
+    print(predicted_label, confidence)
 
     if os.path.exists(f"./images/{file.filename}"):
         os.remove(f"./images/{file.filename}")
-    return {"heading": file.filename, "information": "This is information"}
+    return {"heading": predicted_label, "information": Imf(predicted_label)}
 
 
 @app.post("/api/chatbot")
 async def chatbot(question: str = Body(..., embed=True)):
     print(question)
-    path = "jianghc/medical_chatbot"
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    tokenizer = GPT2Tokenizer.from_pretrained(path)
-    model = GPT2LMHeadModel.from_pretrained(path).to(device)
-
-    prompt_input = (
-        "The conversation between human and AI assistant.\n"
-        f"[|Human|] {question}\n"
-        "[|AI|]"
-    )
-    sentence = prompt_input.format_map({f"input": "{question}"})
-    inputs = tokenizer(sentence, return_tensors="pt").to(device)
-
-    with torch.no_grad():
-        beam_output = model.generate(
-            **inputs,
-            min_new_tokens=1,
-            max_length=512,
-            num_beams=3,
-            repetition_penalty=1.2,
-            early_stopping=True,
-            eos_token_id=198,
-        )
-    print(tokenizer.decode(beam_output[0], skip_special_tokens=True))
+    answer = response(question)
+    return {"answer": answer}
 
 
 if __name__ == "__main__":

@@ -30,4 +30,7 @@ async function FetchApi(image: File): Promise<ApiResponse | void> {
   }
 }
 
-export default FetchApi;
+
+export default FetchApi
+
+

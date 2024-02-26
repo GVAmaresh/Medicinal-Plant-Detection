@@ -17,6 +17,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
+import { ThemeProvider } from "@emotion/react";
+import { createTheme } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -46,7 +48,7 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
   const drawer = (
     <div>
       <Toolbar />
-      <Divider />
+      {/* <Divider /> */}
       <List>
         {["Predict", "Chatbot", "Details"].map((text, index) => (
           <Link href={`/${text.toLowerCase()}`} key={text}>
@@ -66,11 +68,16 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
           </Link>
         ))}
       </List>
-      <Divider />
+      {/* <Divider /> */}
     </div>
   );
-
+  const darkTheme = createTheme({
+    palette: {
+      mode: "dark",
+    },
+  });
   return (
+    <ThemeProvider theme={darkTheme}>
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
@@ -144,5 +151,6 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
         {children}
       </Box>
     </Box>
+    </ThemeProvider>
   );
 }
