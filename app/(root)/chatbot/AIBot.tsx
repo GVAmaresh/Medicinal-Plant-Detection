@@ -23,10 +23,9 @@ import React from "react";
 //   );
 // };
 const AibotCard = ({ answer }: { answer?: string }) => {
-  console.log(answer)
   return (
     <div
-      className={`w-64  text-gray-200 bg-slate-900 p-4 mt-10 rounded-lg`}
+    className={` min-w-96 w-96 md:w-1/2 md:ml-auto md:mr-auto text-gray-200 bg-slate-900 p-4 mt-10 rounded-lg flex justify-center`}
     >
       {answer == "" ? "Hello! How can I assist you?" : answer}
     </div>

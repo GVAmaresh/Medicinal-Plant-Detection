@@ -11,7 +11,6 @@ nltk.download('punkt')
 
 stemmer = LancasterStemmer()
 
-print("Ready")
 current_directory = os.path.dirname(__file__)
 
 intents_path = os.path.join(current_directory, "intents.json")
@@ -33,10 +32,6 @@ try:
 except FileNotFoundError as e:
     print(f"Error: {e}. Please ensure that the required files exist in the correct locations.")
     exit(1)
-
-
-# with open("./intents.json") as json_data:
-#     intents = json.load(json_data)
 
 def response(user_input):
     user_input_words = nltk.word_tokenize(user_input)

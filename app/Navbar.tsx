@@ -19,6 +19,9 @@ import Typography from "@mui/material/Typography";
 import Link from "next/link";
 import { ThemeProvider } from "@emotion/react";
 import { createTheme } from "@mui/material";
+import { usePathname } from 'next/navigation'
+import { ConnectingAirportsOutlined } from "@mui/icons-material";
+import { BiMenuAltLeft } from "react-icons/bi";
 
 const drawerWidth = 240;
 
@@ -26,6 +29,12 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
   const [selectedItem, setSelectedItem] = React.useState(null);
+  const [activeIndex, setActiveIndex] = React.useState(-1);
+
+  const handleItemClick = (index: any) => {
+    setActiveIndex(index);
+    setSelectedItem(index);
+  };
 
   const handleDrawerClose = () => {
     setIsClosing(true);
@@ -41,9 +50,17 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
       setMobileOpen(!mobileOpen);
     }
   };
-  const handleItemClick = (index: any) => {
-    setSelectedItem(index);
-  };
+  const pathname = usePathname()
+  React.useEffect(()=>{
+    console.log(pathname)
+    if (pathname == "/details")return setActiveIndex(2)
+    if (pathname == "/chatbot")return setActiveIndex(1)
+    if (pathname == "/predict")return setActiveIndex(0)
+    if (pathname == "/")return setActiveIndex(0)
+  },[pathname])
+  // const handleItemClick = (index: any) => {
+  //   setSelectedItem(index);
+  // };
 
   const drawer = (
     <div>
@@ -55,7 +72,11 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
             <ListItem
               disablePadding
               onClick={() => handleItemClick(index)}
-              className={index === selectedItem ? "bg-gray-300" : ""}
+              sx={{
+                backgroundColor:
+                  activeIndex === index ? "rgb(255, 87, 51)" : "transparent",
+              }}
+              // className={index === selectedItem ? "bg-gray-300" : ""}
             >
               <ListItemButton>
                 <ListItemIcon>
@@ -95,10 +116,11 @@ export default function Navbar({ children }: { children: React.ReactNode }) {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: "none" } }}
           >
-            <MenuIcon />
+            {/* <MenuIcon /> */}
+            <BiMenuAltLeft />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Responsive drawer
+            Medicinal Plant Detection
           </Typography>
         </Toolbar>
       </AppBar>

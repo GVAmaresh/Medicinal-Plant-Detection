@@ -29,7 +29,6 @@ export default function Details() {
         }
         const data = await response.json();
         setContent(data.data);
-        console.log(data.data[0]);
       } catch (error) {
         console.error("There was a problem with the fetch operation:", error);
       } finally {

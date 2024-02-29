@@ -15,13 +15,11 @@ async function FetchApi(image: File): Promise<ApiResponse | void> {
       onUploadProgress: (progressEvent) => {
         if (progressEvent && progressEvent.total) {
           const loaded = (progressEvent.loaded / progressEvent.total) * 100;
-          console.log(`Upload Progress: ${Math.round(loaded)}%`);
         }
       },
     });
     const responseData: ApiResponse = response.data;
     if (responseData) {
-      console.log('Response Data:', responseData);
       return responseData; 
     }
   } catch (error) {

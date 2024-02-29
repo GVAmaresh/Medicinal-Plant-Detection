@@ -10,15 +10,12 @@ const SearchBar = ({ handleSubmit }: { handleSubmit: Function }) => {
   };
 
   const handleClick = () => {
-    console.log(query)
     handleSubmit(query);
-    // setQuery("");
   };
 
   const handleFormSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     handleSubmit(query);
-    // setQuery("");
   };
 
   return (
@@ -33,7 +30,7 @@ const SearchBar = ({ handleSubmit }: { handleSubmit: Function }) => {
         />
         <button
           type="submit"
-          className="bg-primary-500 text-black px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+          className="text-white  px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
           onClick={handleClick}
         >
           Ask

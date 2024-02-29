@@ -9,7 +9,6 @@ export default function Home() {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
   const handleChange = (newPrompt: string) => {
-    console.log(newPrompt);
     setPrompt(newPrompt);
   };
 
@@ -30,7 +29,6 @@ export default function Home() {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        console.log(data.answer)
         setContent(data.answer);
       } catch (error) {
         console.error("There was a problem with the fetch operation:", error);

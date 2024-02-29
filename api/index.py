@@ -10,6 +10,7 @@ import torch
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 import os
 from herbalScanner import predict_plant_photo
+from predict.botanicalPrediction import BotanicalPre
 from storeImf import Imf
 from chatbot.predict import response
 
@@ -32,20 +33,26 @@ async def create_upload_file(file: UploadFile = File(...)):
     contents = await file.read()
     with open(f"{IMAGEDIR}{file.filename}", "wb") as f:
         f.write(contents)
+    confidence = 0
+    predicted_label = ""
+    
+    # Segmented Leaf
     # model = YOLO("./best.pt")
     # results = model(f"./images/{file.filename}")
-    # print(results)
-    predicted_label, confidence = predict_plant_photo(f"./images/{file.filename}")
-    print(predicted_label, confidence)
+    
+    # Kaggle Indian Plant
+    # predicted_label, confidence = predict_plant_photo(f"./images/{file.filename}")
+    
+    #Botanical Garden
+    predicted_label = BotanicalPre(f"./images/{file.filename}")
 
     if os.path.exists(f"./images/{file.filename}"):
         os.remove(f"./images/{file.filename}")
-    return {"heading": predicted_label, "information": Imf(predicted_label)}
+    return {"heading": predicted_label,"confidence":str(confidence), "information": Imf(predicted_label)}
 
 
 @app.post("/api/chatbot")
 async def chatbot(question: str = Body(..., embed=True)):
-    print(question)
     answer = response(question)
     return {"answer": answer}
 

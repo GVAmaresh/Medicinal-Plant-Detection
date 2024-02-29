@@ -14,7 +14,6 @@ warnings.filterwarnings("ignore")
 
 stemmer = LancasterStemmer()
 
-print("Ready")
 
 with open("./intents.json") as json_data:
     intents = json.load(json_data)
@@ -75,7 +74,6 @@ model = tf.keras.Model(inputs=input_data, outputs=output_layer)
 
 model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
 
-print("Training....")
 model.fit(train_x, train_y, epochs=200, batch_size=8)
 
 with open("model.pkl", "wb") as model_file:
@@ -86,5 +84,3 @@ with open("classes.pkl", "wb") as classes_file:
 
 with open("words.pkl", "wb") as words_file:
     pickle.dump(np.array(words), words_file)
-
-print("Model trained and saved.")
