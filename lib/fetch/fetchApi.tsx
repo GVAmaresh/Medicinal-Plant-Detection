@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-interface ApiResponse {
+export interface ApiResponse {
   heading: string;
   information: string;
-  // Add other properties based on the actual response structure
+  confidence:string ,
 }
 
 async function FetchApi(image: File): Promise<ApiResponse | void> {

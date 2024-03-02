@@ -1,34 +1,48 @@
-"use client";
 import React, { useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import Image from "next/image";
 
 import FetchApi from "@/lib/fetch/fetchApi";
+import type { ApiResponse } from "@/lib/fetch/fetchApi";
+
 import Card from "./Card";
 
 function Predict() {
-  const [img, setImg] = useState<undefined | string>("");
+  const [img, setImg] = useState<string | undefined>("");
   const [details, setDetails] = useState<{
     isUpload: boolean;
-    heading: string | undefined;
-    confidence: string | undefined;
-    information: string | undefined;
+    heading?: string;
+    confidence?: string;
+    information?: string;
   } | null>(null);
 
   const handleChange = (files: File | null) => {
     if (!files) return console.log("Files not found");
     setImg(URL.createObjectURL(files));
-
+  
     FetchApi(files)
-      .then(({ heading, confidence, information }) => {
-        if (!heading || !information || !confidence)
-          return setDetails({
+      .then((response: ApiResponse | void) => {
+        if (!response) {
+          console.error("Response is void");
+          return;
+        }
+  
+        const { heading, confidence, information } = response;
+        if (!heading || !information || !confidence) {
+          setDetails({
             isUpload: true,
-            heading: heading,
-            confidence: confidence,
-            information: information,
+            heading: heading || undefined,
+            confidence: confidence || undefined,
+            information: information || undefined,
           });
-        setDetails({ isUpload: true, heading, confidence, information });
+        } else {
+          setDetails({
+            isUpload: true,
+            heading,
+            confidence,
+            information,
+          });
+        }
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
