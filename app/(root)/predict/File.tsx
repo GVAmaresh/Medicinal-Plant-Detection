@@ -57,7 +57,7 @@ function Predict() {
           <FileUploader
             handleChange={handleChange}
             name="file"
-            types={["JPG", "PNG"]}
+            types={["JPG","JPEG", "PNG"]}
             maxSize={5}
           >
             {details?.isUpload ? (
