@@ -9,10 +9,11 @@ from fastapi import Body
 import torch
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 import os
-from herbalScanner import predict_plant_photo
+# from api.delete.herbalScanner import predict_plant_photo
 from predict.botanicalPrediction import BotanicalPre
-from storeImf import Imf
+# from api.delete.storeImf import Imf
 from chatbot.predict import response
+from predict.storeBotanicalImf import BotanicalInf
 
 app = FastAPI(docs_url="/api/docs", openapi_url="/api/openapi.json")
 
@@ -35,6 +36,7 @@ async def create_upload_file(file: UploadFile = File(...)):
         f.write(contents)
     confidence = 0
     predicted_label = ""
+    information = ""
     
     # Segmented Leaf
     # model = YOLO("./best.pt")
@@ -42,14 +44,19 @@ async def create_upload_file(file: UploadFile = File(...)):
     
     # Kaggle Indian Plant
     # predicted_label, confidence = predict_plant_photo(f"./images/{file.filename}")
+    # information = Imf(predicted_label)
     
     #Botanical Garden
     predicted_label = BotanicalPre(f"./images/{file.filename}")
+    print(predicted_label)
+    if "Please" not in predicted_label:
+        information = BotanicalInf(predicted_label)
 
     if os.path.exists(f"./images/{file.filename}"):
         os.remove(f"./images/{file.filename}")
-    return {"heading": predicted_label,"confidence":str(confidence), "information": Imf(predicted_label)}
-
+    if os.path.exists(f"./ruus"):
+        os.remove(f"./runs")
+    return {"heading": predicted_label, "confidence": str(confidence), "information": information }
 
 @app.post("/api/chatbot")
 async def chatbot(question: str = Body(..., embed=True)):

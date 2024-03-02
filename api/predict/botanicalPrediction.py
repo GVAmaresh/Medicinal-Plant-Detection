@@ -1,16 +1,21 @@
 from ultralytics import YOLO
+import subprocess
+import os
 def BotanicalPre(image_path):
-    model = YOLO('yolov8n.pt')
-    yolo_output = model(image_path)
-    print(yolo_output)
-    detect = yolo_output[3].index(" 1 ")
-    objects = yolo_output[3][detect:].split(",")[:-1]
-    print(" ----------------------------------------------------   ")
-
-    print("Detected Objects: ")
-    print()
-    for i in objects:
-        i = i.strip()
-    split_name = i.split(" ")
-    return split_name[0]
-    # print(" ".join(split_name[1:]))
+    print(image_path)
+    model_path = "./best.pt"
+    command = f"yolo detect mode=predict model={model_path} source={image_path}"
+    result = subprocess.run(command, shell=True, capture_output=True, text=True)
+    print(result)
+    output_lines = result.stdout.split('\n')
+    print(output_lines)
+    for line in output_lines:
+        if " 1 " in line:
+            print(line)
+            a = line.index(" 1 ") + 3
+            b = line[a:].index(",")
+            # os.remove(image_path)
+            print("output = ", line[a:a +b])
+            return line[a:a +b]
+    return "Please use detailed Image"
+    
