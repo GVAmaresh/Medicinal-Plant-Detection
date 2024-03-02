@@ -5,10 +5,11 @@ interface CardProps {
   text?: string;
   main?: string;
   confidence?: string;
+  bgColor?: boolean;
   boxShadow?: boolean;
 }
 
-function Card({ src, text, confidence, main, boxShadow = false }: CardProps) {
+function Card({ src, text, confidence, main, bgColor=false, boxShadow = false }: CardProps) {
   return (
     <>
       <div
@@ -16,7 +17,7 @@ function Card({ src, text, confidence, main, boxShadow = false }: CardProps) {
           boxShadow ? "cur-shadow" : ""
         }`}
       >
-        <div className="rounded-r-3xl bg-dark-4">
+        <div className={`rounded-r-3xl ${bgColor ? " bg-white" : "bg-dark-4"}`}>
           <Image
             src={src ? src : ""}
             alt="upload"

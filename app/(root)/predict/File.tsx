@@ -37,8 +37,8 @@ function Predict() {
 
   return (
     <>
-      <div className="flex justify-center">
-        <div className="mt-8 w-full max-w-screen-lg">
+      <div className="flex justify-center ">
+        <div className="mt-8 w-full max-w-screen-lg shadow-slate-500">
           <FileUploader
             handleChange={handleChange}
             name="file"
@@ -57,6 +57,7 @@ function Predict() {
                 src="/images/plant3.png"
                 text="Upload or Drag and Drop"
                 boxShadow={true}
+                bgColor={true}
               />
             )}
           </FileUploader>
