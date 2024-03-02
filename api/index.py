@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pathlib import Path
 from typing import Annotated
 import uvicorn
+import shutil
 from ultralytics import YOLO
 import uuid
 from fastapi import Body
@@ -51,11 +52,15 @@ async def create_upload_file(file: UploadFile = File(...)):
     print(predicted_label)
     if "Please" not in predicted_label:
         information = BotanicalInf(predicted_label)
+        print(information)
 
     if os.path.exists(f"./images/{file.filename}"):
         os.remove(f"./images/{file.filename}")
-    if os.path.exists(f"./ruus"):
-        os.remove(f"./runs")
+    try:
+        shutil.rmtree("./runs")
+        # print(f"Folder './runs' deleted successfully.")
+    except Exception as e:
+        print(f"Error deleting folder './runs': {e}")
     return {"heading": predicted_label, "confidence": str(confidence), "information": information }
 
 @app.post("/api/chatbot")
