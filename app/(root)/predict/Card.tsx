@@ -12,17 +12,17 @@ function Card({ src, text, confidence, main, boxShadow = false }: CardProps) {
   return (
     <>
       <div
-        className={`flex flex-col sm:flex-row items-center justify-evenly px-20 py-8 text-xl font-semibold ${
+        className={`flex flex-col sm:flex-row items-center justify-evenly px-20 py-8 text-xl font-semibold comp ${
           boxShadow ? "cur-shadow" : ""
         }`}
       >
-        <div className="rounded-r-3xl bg-white">
+        <div className="rounded-r-3xl bg-dark-4">
           <Image
             src={src ? src : ""}
             alt="upload"
             width={400}
             height={300}
-            className="custom-rounded"
+            className="custom-rounded "
           />
         </div>
         <div className="flex flex-col justify-center sm:ml-4">
