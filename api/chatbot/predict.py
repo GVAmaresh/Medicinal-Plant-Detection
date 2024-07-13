@@ -11,7 +11,7 @@ nltk.download('punkt')
 
 stemmer = LancasterStemmer()
 
-current_directory = os.path.dirname(__file__)
+current_directory = os.path.dirname(_file_)
 
 intents_path = os.path.join(current_directory, "intents.json")
 words_path = os.path.join(current_directory, "words.pkl")
@@ -25,7 +25,7 @@ try:
     with open(classes_path, "rb") as classes_file:
         classes = pickle.load(classes_file)
 
-    model = tf.keras.models.load_model(model_path)
+    model = tf.keras.layers.TFSMLayer(model_path, call_endpoint='serving_default')
 
     with open(intents_path) as json_data:
         intents = json.load(json_data)
@@ -56,4 +56,3 @@ def response(user_input):
             break
 
     return response
-
