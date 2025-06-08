@@ -2,7 +2,7 @@
 This project is a web application that detects medicinal plants using YOLOv8, served via a FastAPI REST API, and displayed through a modern Next.js frontend.
 
 ## Tech Stack
-> Frontend: Next.js (React + Tailwind)
+> Frontend: Next.js (Nextjs + Tailwind)
 > 
 > Backend: FastAPI (Python)
 >
